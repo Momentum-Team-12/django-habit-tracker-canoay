@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import environ
+import django_on_heroku
 
 
 env = environ.Env(
@@ -22,7 +23,7 @@ env = environ.Env(
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Take environment variables from .env file
+# Take environment variables from .env file, reads env file from this location!
 environ.Env.read_env(BASE_DIR / '.env')
 
 
@@ -135,6 +136,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Per debug toolbar instructions
 INTERNAL_IPS = [
     "127.0.0.1"
 ]
+
+AUTH_USER_MODEL = "habit.CustomUser" 
+
+# heroku settings
+django_on_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
