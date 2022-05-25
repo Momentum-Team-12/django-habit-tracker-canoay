@@ -10,6 +10,7 @@ class HabitForm(forms.ModelForm):
             'goal',
             'unit',
             'goal_description',
+            'start_date',
         ]
 
 
@@ -17,6 +18,7 @@ class TrackerForm(forms.ModelForm):
     class Meta:
         model = Tracker
         fields = [
+            'habit',
             'actual_progress',
             'date',
         ]

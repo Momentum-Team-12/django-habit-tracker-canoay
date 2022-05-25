@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Goal entry: {{ habit.name }}</h1>
+
+<p>{{ habit.goal }}<br>
+{{habit.category}}<br>
+{{ habit.created_at }} <br></p>
+ 
+{% endblock %}

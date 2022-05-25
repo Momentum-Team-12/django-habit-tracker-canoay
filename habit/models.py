@@ -15,13 +15,16 @@ class CustomUser(AbstractUser):
 
 
 class Habit(models.Model):
-    name        = models.CharField(max_length=300)
-    goal        = models.IntegerField(default=0)
+    name             = models.CharField(max_length=300)
+    goal             = models.IntegerField(default=0)
     goal_description = models.TextField(max_length=1000, null=True, blank=True)
-    user        = models.ForeignKey('CustomUser', on_delete=models.CASCADE, null=True, blank=True, related_name="habits" )
-    unit        = models.CharField(max_length=100)
-    created_at  = models.DateTimeField(auto_now_add=True)
-    start_date  = models.DateField(null=True, blank=True)
+    user             = models.ForeignKey('CustomUser', on_delete=models.CASCADE, null=True, blank=True, related_name="habits" )
+    measurement_unit = models.CharField(max_length=100)
+    created_at       = models.DateTimeField(auto_now_add=True)
+    start_date       = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Tracker(models.Model):

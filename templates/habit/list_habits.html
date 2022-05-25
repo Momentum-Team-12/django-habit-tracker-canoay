@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>My Goal</h1>
+<div >
+    {% for habit in habits %}
+    <div>
+
+        <div >
+            <div ></div>
+
+            <div>
+                <h2>{{ habit.name }}</h2>
+                {{ habit.goal }}<br />
+                {{habit.category}}<br>
+                {{ habit.created_at }} <br />
+                <a href="">Read More</a>
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

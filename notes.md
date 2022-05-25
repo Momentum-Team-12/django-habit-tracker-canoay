@@ -16,3 +16,8 @@
 ---
 
 environ.Env.read_env(BASE_DIR / '.env') - reads the file at the base directory. Leaving it empty inside the parentheses will look for it alongside the settings.py location.
+
+### Settings.py
+
+Make sure to set template DIRS to:
+` 'DIRS': [BASE_DIR / "templates"]`
