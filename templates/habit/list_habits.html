@@ -1,20 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>My Goal</h1>
+<h1>{{request.user}}'s Goals</h1>
+<a href="{% url 'logout' %}">Logout</a>
+<br>
+<br>
+<button><a href="{% url 'add_habit' %}">Add New Habit</a></button>
+
 <div >
     {% for habit in habits %}
     <div>
 
-        <div >
-            <div ></div>
-
+        <div > 
+<br>
             <div>
-                <h2>{{ habit.name }}</h2>
-                {{ habit.goal }}<br />
+                <h2>Goal: {{ habit.name }}</h2>
+                {{ habit.goal }} {{habit.measurement_unit}}
                 {{habit.category}}<br>
-                {{ habit.created_at }} <br />
-                <a href="">Read More</a>
+                {{ habit.start_date }}<br>
+                <a href="{% url 'habit_detail' pk=habit.pk %}">Read More</a>
             </div>
 
         </div>

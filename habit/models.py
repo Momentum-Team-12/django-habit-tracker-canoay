@@ -15,13 +15,22 @@ class CustomUser(AbstractUser):
 
 
 class Habit(models.Model):
+    PERSONAL         = 'Personal'
+    PROFESSIONAL     = 'Professional'
+    FUN              = 'For Fun!'
+    GOAL_CATEGORY = [
+        (PERSONAL, 'Personal'),
+        (PROFESSIONAL, 'Professional'),
+        (FUN, 'For Fun!'),
+    ]
     name             = models.CharField(max_length=300)
     goal             = models.IntegerField(default=0)
     goal_description = models.TextField(max_length=1000, null=True, blank=True)
     user             = models.ForeignKey('CustomUser', on_delete=models.CASCADE, null=True, blank=True, related_name="habits" )
     measurement_unit = models.CharField(max_length=100)
     created_at       = models.DateTimeField(auto_now_add=True)
-    start_date       = models.DateField(null=True, blank=True)
+    start_date       = models.DateField(help_text="Please enter date as MM/DD/YYYY")
+    goal_category    = models.CharField( max_length=15, choices=GOAL_CATEGORY, default=PERSONAL,)
 
     def __str__(self):
         return self.name

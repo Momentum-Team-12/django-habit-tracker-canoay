@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+<br>
 <h1>Goal entry: {{ habit.name }}</h1>
+<br>
+<p>Goal: {{ habit.goal }} {{habit.measurement_unit}}<br>
+Category: {{habit.goal_category}}<br>
+Start Date: {{habit.start_date}}<br> <br>
+Created on: {{ habit.created_at }} <br></p>
+<br>
 
-<p>{{ habit.goal }}<br>
-{{habit.category}}<br>
-{{ habit.created_at }} <br></p>
- 
+<a href="{% url 'edit_habit' pk=habit.pk %}">Edit Habit Details</a><br>
+<a class="content-heading-color" href="{% url 'delete_habit' pk=habit.pk %}">Delete Habit Entry</a><br>
+<a href="{% url 'list_habits' %}">Return to Homepage</a><br>
 {% endblock %}

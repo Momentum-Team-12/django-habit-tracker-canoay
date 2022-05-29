@@ -8,9 +8,10 @@ class HabitForm(forms.ModelForm):
         fields = [
             'name',
             'goal',
-            'unit',
-            'goal_description',
+            'measurement_unit',
+            'goal_category',
             'start_date',
+            'goal_description',
         ]
 
 
@@ -20,5 +21,5 @@ class TrackerForm(forms.ModelForm):
         fields = [
             'habit',
             'actual_progress',
-            'date',
+            'tracked_date',
         ]
