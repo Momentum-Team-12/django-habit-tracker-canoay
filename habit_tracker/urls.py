@@ -19,7 +19,6 @@ from habit import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('__debug__/', include('debug_toolbar.urls')),
     path('accounts/', include('registration.backends.simple.urls')),
     path('', views.list_habits, name='list_habits'),
     path('habit/<int:pk>', views.habit_detail, name='habit_detail'),
