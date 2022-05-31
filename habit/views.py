@@ -1,8 +1,11 @@
+from csv import Sniffer
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Habit, Tracker, CustomUser
 from .forms import HabitForm, TrackerForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db import IntegrityError
+
 
 # Create your views here.
 
@@ -21,7 +24,7 @@ def list_habits(request):
 def habit_detail(request, pk):
     habit = Habit.objects.get(pk=pk)
     date_tracked = Tracker.objects.filter(habit=habit)
-    return render(request, "habit/habit_detail.html", {"habit": habit, "date_tracked": date_tracked})
+    return render(request, "habit/habit_detail.html", {"habit": habit, })
 
 @login_required
 def add_habit(request):
@@ -40,8 +43,6 @@ def add_habit(request):
     return render(request, "habit/add_habit.html", {"form": form})
 
 
-
-
 def edit_habit(request, pk):
     habit = get_object_or_404(Habit, pk=pk)
     if request.method == 'GET':
@@ -57,7 +58,7 @@ def edit_habit(request, pk):
         "habit": habit
     })
 
-
+@login_required
 def delete_habit(request, pk):
     habit = get_object_or_404(Habit, pk=pk)
     if request.method =='POST':
@@ -65,3 +66,51 @@ def delete_habit(request, pk):
         return redirect(to='list_habits')
 
     return render(request, "habit/delete_habit.html", {"habit": habit})
+
+@login_required
+def create_record(request, pk):
+    habit = get_object_or_404(Habit, pk=pk)
+    if request.method =='GET':
+        form = TrackerForm()
+        error_msg = None
+    else:
+        form = TrackerForm(data=request.POST)
+        if form.is_valid():
+            tracked_date = form.save(commit=False)
+            tracked_date.habit = habit
+            try:
+                tracked_date.save()
+                error_msg = None
+                messages.success(request, "Another day down!")
+                return redirect(to="habit_detail", pk=habit.pk)
+            except IntegrityError as error:
+                error_msg = "Only one record can exist per date."
+    
+    return render(request, "habit/create_record.html", {"form":form, "habit":habit, "pk":pk})
+
+
+@login_required
+def edit_record(request, pk):
+    tracked_date = get_object_or_404(Tracker, pk=pk)
+    if request.method == 'GET':
+        form = TrackerForm(instance=tracked_date)
+    else:
+        form = TrackerForm(data=request.POST, instance=tracked_date)
+        if form.is_valid():
+            form.save()
+            return redirect(to='habit_detail', pk=tracked_date.pk)
+
+    return render(request, "habit/edit_record.html", {
+        "form": form,
+        "tracked_date": tracked_date},)
+
+
+@login_required
+def delete_record(request, pk):
+    tracked_date = get_object_or_404(Tracker, pk=pk)
+    if request.method =='POST':
+        tracked_date.delete()
+        return redirect(to='habit_detail')
+
+    return render(request, "habit/delete_record.html", {"tracked_date": tracked_date})
+

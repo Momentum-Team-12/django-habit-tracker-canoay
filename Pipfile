@@ -12,6 +12,8 @@ django-registration-redux = "*"
 django-on-heroku = "*"
 gunicorn = "*"
 psycopg2 = "*"
+djangorestframework = "*"
+pygments = "*"
 
 [dev-packages]
 

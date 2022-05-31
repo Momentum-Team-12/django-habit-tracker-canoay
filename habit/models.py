@@ -6,6 +6,8 @@ from datetime import datetime
 
 # Create your models here.
 
+
+
 class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
@@ -31,6 +33,9 @@ class Habit(models.Model):
     created_at       = models.DateTimeField(auto_now_add=True)
     start_date       = models.DateField(help_text="Please enter date as MM/DD/YYYY")
     goal_category    = models.CharField( max_length=15, choices=GOAL_CATEGORY, default=PERSONAL,)
+
+    class Meta:
+        ordering = ['name']
 
     def __str__(self):
         return self.name
